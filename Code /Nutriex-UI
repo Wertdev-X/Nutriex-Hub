@@ -12,29 +12,30 @@ local CoreGui = (gethui and gethui()) or game:GetService("CoreGui");
 
 local NutriexUI = {
 	Themes = {
-		DarkGreen = {
-        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(15, 15, 15)),
-        ColorSequenceKeypoint.new(0.50, Color3.fromRGB(5, 10, 17)),
-        ColorSequenceKeypoint.new(1.00, Color3.fromRGB(15, 15, 15))
-    }),
-    ["Color Hub 2"] = Color3.fromRGB(20, 20, 20),
-    ["Color Stroke"] = Color3.fromRGB(35, 35, 35),
-    ["Color Theme"] = Color3.fromRGB(255, 255, 255),
-    ["Color Text"] = Color3.fromRGB(245, 245, 245),
-    ["Color Dark Text"] = Color3.fromRGB(130, 130, 130)
-	},
-		Dark = {
+		Darker = {
 			["Color Hub 1"] = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(40, 40, 40)),
-				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(47.5, 47.5, 47.5)),
-				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(40, 40, 40))
+				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(18, 18, 22)),
+		        ColorSequenceKeypoint.new(0.50, Color3.fromRGB(8, 8, 12)),
+		        ColorSequenceKeypoint.new(1.00, Color3.fromRGB(18, 18, 22))
 			}),
-			["Color Hub 2"] = Color3.fromRGB(45, 45, 45),
-			["Color Stroke"] = Color3.fromRGB(65, 65, 65),
-			["Color Theme"] = Color3.fromRGB(65, 150, 255),
-			["Color Text"] = Color3.fromRGB(245, 245, 245),
-			["Color Dark Text"] = Color3.fromRGB(190, 190, 190)
-	},
+			["Color Hub 2"] = Color3.fromRGB(22, 22, 28),
+	        ["Color Stroke"] = Color3.fromRGB(45, 45, 55),
+	        ["Color Theme"] = Color3.fromRGB(88, 101, 242),
+        	["Color Text"] = Color3.fromRGB(245, 245, 250),
+        	["Color Dark Text"] = Color3.fromRGB(160, 160, 175)
+		},
+		Green = {
+	["Color Hub 1"] = ColorSequence.new({
+		ColorSequenceKeypoint.new(0.00, Color3.fromRGB(12, 18, 14)),
+		ColorSequenceKeypoint.new(0.50, Color3.fromRGB(6, 10, 8)),
+		ColorSequenceKeypoint.new(1.00, Color3.fromRGB(12, 18, 14))
+	}),
+	["Color Hub 2"] = Color3.fromRGB(16, 22, 18),
+	["Color Stroke"] = Color3.fromRGB(30, 45, 35),
+	["Color Theme"] = Color3.fromRGB(0, 255, 130),
+	["Color Text"] = Color3.fromRGB(235, 255, 245),
+	["Color Dark Text"] = Color3.fromRGB(140, 180, 155)
+},
 		Purple = {
 			["Color Hub 1"] = ColorSequence.new({
 				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(27.5, 25, 30)),
@@ -46,15 +47,15 @@ local NutriexUI = {
 			["Color Theme"] = Color3.fromRGB(150, 0, 255),
 			["Color Text"] = Color3.fromRGB(240, 240, 240),
 			["Color Dark Text"] = Color3.fromRGB(180, 180, 180)
-	 }
+		}
 	},
 	Info = {
 		Version = "1.1.0"
 	},
 	Save = {
-		UISize = {482, 242},
+		UISize = {488, 247},
 		TabSize = 160,
-		Theme = "DarkGreen"
+		Theme = "Darker"
 	},
 	Settings = {},
 	Connection = {},
@@ -951,7 +952,7 @@ local SetProps, SetChildren, InsertTheme, Create do
 		end
 	end
 	
-	pcall(Save, "Nutriex-Config-Library-V1.json")
+	pcall(Save, "Nutriex-UI-library-V5.json")
 end
 
 local Funcs = {} do
@@ -1093,7 +1094,7 @@ local GetFlag, SetFlag, CheckFlag do
 end
 
 local ScreenGui = Create("ScreenGui", CoreGui, {
-	Name = "Nutriex-UI-V5",
+	Name = "Nutriex-Library-v5",
 }, {
 	Create("UIScale", {
 		Scale = UIScale,
@@ -1372,7 +1373,7 @@ function NutriexUI:SetTheme(NewTheme)
 	if not VerifyTheme(NewTheme) then return end
 	
 	NutriexUI.Save.Theme = NewTheme
-	SaveJson("Nutriex-Config-Library-V1.json", NutriexUI.Save)
+	SaveJson("Nutriex-UI-library-V5.json", NutriexUI.Save)
 	Theme = NutriexUI.Themes[NewTheme]
 	
 	Comnection:FireConnection("ThemeChanged", NewTheme)
@@ -1542,13 +1543,13 @@ function NutriexUI:MakeWindow(Configs)
 	ConnectSave(ControlSize1, function()
 		if not Minimized then
 			NutriexUI.Save.UISize = {MainFrame.Size.X.Offset, MainFrame.Size.Y.Offset}
-			SaveJson("Nutriex-Config-Library-V1.json", NutriexUI.Save)
+			SaveJson("Nutriex-UI-library-V5.json", NutriexUI.Save)
 		end
 	end)
 	
 	ConnectSave(ControlSize2, function()
 		NutriexUI.Save.TabSize = MainScroll.Size.X.Offset
-		SaveJson("Nutriex-Config-Library-V1.json", NutriexUI.Save)
+		SaveJson("Nutriex-UI-library-V5.json", NutriexUI.Save)
 	end)
 	
 	local ButtonsFolder = Create("Folder", TopBar, {
@@ -1581,7 +1582,7 @@ function NutriexUI:MakeWindow(Configs)
 	function Window:CloseBtn()
 		local Dialog = Window:Dialog({
 			Title = "Close",
-			Text = "You Want Close Ui?",
+			Text = "You Want Close Nutriex Hub?",
 			Options = {
 				{"Confirm", function()
 					ScreenGui:Destroy()
@@ -2662,35 +2663,37 @@ function NutriexUI:MakeWindow(Configs)
 				Text = Desc
 			}), "DarkText")
 			
-			local JoinButton = Create("TextButton", FrameHolder, {
-				Size = UDim2.new(1, -14, 0, 16),
-				AnchorPoint = Vector2.new(0.5, 1),
-				Position = UDim2.new(0.5, 0, 1, -7),
-				Text = "Copy Discord Server",
-				Font = Enum.Font.GothamBold,
-				TextSize = 12,
-				TextColor3 = Color3.fromRGB(220, 220, 220),
-				BackgroundColor3 = Color3.fromRGB(88, 101, 242)
-			})Make("Corner", JoinButton, UDim.new(0, 5))
-			
-			local ClickDelay
-			JoinButton.Activated:Connect(function()
-				setclipboard(Invite)
-				if ClickDelay then return end
-				
-				ClickDelay = true
-				SetProps(JoinButton, {
-					Text = "Copied to Clipboard!",
-					BackgroundColor3 = Color3.fromRGB(100, 100, 100),
-					TextColor3 = Color3.fromRGB(150, 150, 150)
-				})task.wait(5)
-				
-				SetProps(JoinButton, {
-					Text = "Copy Discord Server",
-					TextColor3 = Color3.fromRGB(220, 220, 220),
-				BackgroundColor3 = Color3.fromRGB(88, 101, 242)
-				})ClickDelay = false
-			end)
+local JoinButton = Create("TextButton", FrameHolder, {
+	Size = UDim2.new(1, -14, 0, 16),
+	AnchorPoint = Vector2.new(0.5, 1),
+	Position = UDim2.new(0.5, 0, 1, -7),
+	Text = "Copy Discord Server",
+	Font = Enum.Font.GothamBold,
+	TextSize = 12,
+	TextColor3 = Color3.fromRGB(255, 255, 255),
+	BackgroundColor3 = Color3.fromRGB(88, 101, 242) -- Discord Blurple
+})
+Make("Corner", JoinButton, UDim.new(0, 5))
+
+local ClickDelay
+JoinButton.Activated:Connect(function()
+	setclipboard(Invite)
+	if ClickDelay then return end
+	
+	ClickDelay = true
+	SetProps(JoinButton, {
+		Text = "Copied to Clipboard",
+		BackgroundColor3 = Color3.fromRGB(70, 80, 200),
+		TextColor3 = Color3.fromRGB(200, 200, 200)
+	})
+	task.wait(5)
+	SetProps(JoinButton, {
+		Text = "Copy Discord Server",
+		BackgroundColor3 = Color3.fromRGB(88, 101, 242),
+		TextColor3 = Color3.fromRGB(255, 255, 255)
+	})
+	ClickDelay = false
+end)
 			
 			local DiscordInvite = {}
 			function DiscordInvite:Destroy() InviteHolder:Destroy() end
